@@ -10,7 +10,7 @@ const defaultContent = {
     ctaText: "구독 시작하기",
     linkText: "",
     priceText: "월 ₩390,000부터",
-    image: `${import.meta.env.BASE_URL}2277cb5f5952be3c4c48b5bd66cafeccddb6ed27-3665x2062.avif`,
+    image: `${import.meta.env.BASE_URL}2277cb5f5952be3c4c48b5bd66cafeccddb6ed27-3665x2062.avif`, // hero
     imageAlt: "NEO 휴머노이드 로봇",
   },
 
@@ -24,7 +24,7 @@ const defaultContent = {
         headline: "최신 드립\n웃으면서 배우기.",
         subtitle: "COMPANION",
         description: "질문하고 지식, 개인 맞춤형 정보 또는 유머까지 즉시 받아보세요.",
-        image: "",
+        image: `${import.meta.env.BASE_URL}bbe5409d23f3339d6dde93baef0fb8f11c1eeccb-1100x655-복사본.png`,
         video: "https://stream.mux.com/DM1B1loQuxwllFemIHB7VzNvOjK4wvjevdVEMXrPmpk.m3u8?max_resolution=1440p&min_resolution=540p&redundant_streams=true",
       },
       {
@@ -33,7 +33,7 @@ const defaultContent = {
         headline: "집을 새롭게 바꾸기.",
         subtitle: "UTILITY",
         description: "집안의 지루하고 단조로운 일들을 대신 처리해 주므로,\n당신은 당신에게 중요한 일에 집중할 수 있습니다.",
-        image: "",
+        image: `${import.meta.env.BASE_URL}16ac313d16c3550c96e2d9432ca52b07e887ec44-1920x1080.avif`,
         video: "https://stream.mux.com/O7s2Tr00rN8VGzB7ZOw5xVX02Y8qx1UTQHnpFfjk68PwM.m3u8?max_resolution=1440p&min_resolution=540p&redundant_streams=true",
       },
       {
@@ -42,7 +42,7 @@ const defaultContent = {
         headline: "소중한 가족을\n24시간 지켜봅니다.",
         subtitle: "",
         description: "아이와 반려동물의 안전을 모니터링하고, 위험 상황을 즉시 알립니다.",
-        image: "",
+        image: `${import.meta.env.BASE_URL}ec0f8362df66c8d01103e97689223e3cc15ca2ce-2880x2160.avif`,
         video: "",
       },
       {
@@ -51,7 +51,7 @@ const defaultContent = {
         headline: "사용할수록\n당신에게 최적화.",
         subtitle: "",
         description: "생활 패턴을 학습해 집에 최적화됩니다. 쓸수록 더 똑똑해지는 로봇.",
-        image: "",
+        image: `${import.meta.env.BASE_URL}f195d31c59c24f31a4168efdf28526ea9a192ace-3351x2234.avif`,
         video: "",
       },
       {
@@ -60,7 +60,7 @@ const defaultContent = {
         headline: "",
         subtitle: "",
         description: "",
-        image: "",
+        image: `${import.meta.env.BASE_URL}6e5bada17d498aea32c49710fbb76c4f3730d729-1600x844.avif`,
         video: "",
       },
     ],
@@ -80,7 +80,7 @@ const defaultContent = {
     title: "나에게 맞는 플랜.",
     subtitle: "로봇 구매 없이, 월 구독으로 시작하세요.",
     footnote: "",
-    image: "",
+    image: `${import.meta.env.BASE_URL}1054db069547b8a970273c62fa96fb6ae1818e8a-3665x2062.avif`,
     plans: [
       {
         name: "Standard",

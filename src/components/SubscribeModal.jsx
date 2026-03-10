@@ -54,7 +54,7 @@ export default function SubscribeModal() {
     setShowConfirm(true);
     setTimeout(() => setShowConfirm(false), 2500);
   };
-  const defaultActive = pricing.plans.findIndex((p) => p.name === "Pro");
+  const defaultActive = pricing.plans.findIndex((p) => p.recommended);
   const [activePlan, setActivePlan] = useState(defaultActive >= 0 ? defaultActive : 0);
 
   /* 슬라이딩 하이라이트 */
@@ -109,7 +109,7 @@ export default function SubscribeModal() {
           }}
         >
           <img
-            src={`${import.meta.env.BASE_URL}8395d998311eb1d7f5d77f888bc3c892 복사본.jpg`}
+            src={`${import.meta.env.BASE_URL}8395d998311eb1d7f5d77f888bc3c892.jpg`}
             alt="구독 완료"
             style={{
               maxWidth: "min(480px, 90vw)",

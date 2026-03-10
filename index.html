@@ -9,6 +9,14 @@
     <meta property="og:title" content="NEO Home — 휴머노이드 로봇 가사 도우미" />
     <meta property="og:description" content="NEO가 집안일을 대신합니다. 월 구독으로 만나는 AI 휴머노이드 로봇 가사 도우미 서비스." />
     <meta property="og:type" content="website" />
+  <script>
+    // GitHub Pages SPA 리다이렉트 처리
+    const redirect = sessionStorage.getItem('spa-redirect');
+    if (redirect) {
+      sessionStorage.removeItem('spa-redirect');
+      window.history.replaceState(null, '', '/test_260310' + redirect);
+    }
+  </script>
   </head>
   <body>
     <div id="root"></div>

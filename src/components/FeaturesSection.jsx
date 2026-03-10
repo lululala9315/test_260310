@@ -5,6 +5,7 @@
  */
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionTemplate } from "motion/react";
+import Hls from "hls.js";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useContent } from "../context/ContentContext";
 
@@ -262,14 +263,30 @@ function CarouselCard({ item, isActive }) {
   );
 }
 
-/** 뷰포트 진입 시 재생되는 비디오 — autoPlay 브라우저 정책 우회 */
+/** 뷰포트 진입 시 재생되는 비디오 — HLS(.m3u8) 및 일반 mp4 모두 지원 */
 function AutoPlayVideo({ src, style }) {
   const videoRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !src) return;
 
+    /* HLS 스트림인 경우 hls.js로 로드, 아니면 src 직접 설정 */
+    let hls = null;
+    if (src.includes(".m3u8")) {
+      if (Hls.isSupported()) {
+        hls = new Hls({ autoStartLoad: true });
+        hls.loadSource(src);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        /* Safari는 네이티브 HLS 지원 */
+        video.src = src;
+      }
+    } else {
+      video.src = src;
+    }
+
+    /* 뷰포트 진입 시 재생 */
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -280,15 +297,17 @@ function AutoPlayVideo({ src, style }) {
       },
       { threshold: 0.3 }
     );
-
     observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
+
+    return () => {
+      observer.disconnect();
+      if (hls) hls.destroy();
+    };
+  }, [src]);
 
   return (
     <video
       ref={videoRef}
-      src={src}
       style={style}
       muted
       loop

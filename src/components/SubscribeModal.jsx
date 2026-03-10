@@ -46,6 +46,14 @@ export default function SubscribeModal() {
   const pricing = content.pricing;
 
   const [isYearly, setIsYearly] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  /** 구독 시작하기 클릭 — 모달 닫고 이미지 팝업 표시 후 자동 소멸 */
+  const handleSubscribe = () => {
+    closeModal();
+    setShowConfirm(true);
+    setTimeout(() => setShowConfirm(false), 2500);
+  };
   const defaultActive = pricing.plans.findIndex((p) => p.name === "Pro");
   const [activePlan, setActivePlan] = useState(defaultActive >= 0 ? defaultActive : 0);
 
@@ -79,6 +87,42 @@ export default function SubscribeModal() {
   }, [open]);
 
   return (
+    <>
+    {/* 구독 확인 이미지 팝업 */}
+    <AnimatePresence>
+      {showConfirm && (
+        <motion.div
+          key="confirm-popup"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.92 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          onClick={() => setShowConfirm(false)}
+          style={{
+            position: "fixed", inset: 0,
+            zIndex: 20000,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "rgba(0,0,0,0.6)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            cursor: "pointer",
+          }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}8395d998311eb1d7f5d77f888bc3c892 복사본.jpg`}
+            alt="구독 완료"
+            style={{
+              maxWidth: "min(480px, 90vw)",
+              maxHeight: "80dvh",
+              borderRadius: "20px",
+              boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
+              objectFit: "contain",
+            }}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+
     <AnimatePresence>
       {open && (
         <>
@@ -266,6 +310,7 @@ export default function SubscribeModal() {
                   className="rounded-full bg-neo-dark text-white text-base font-semibold w-full py-3.5"
                   whileHover={{ scale: 1.02, backgroundColor: "#2E2E2E" }}
                   whileTap={{ scale: 0.97 }}
+                  onClick={handleSubscribe}
                   style={{ transition: "background-color 0.2s", border: "none", cursor: "pointer" }}
                 >
                   구독 시작하기
@@ -321,5 +366,6 @@ export default function SubscribeModal() {
         </>
       )}
     </AnimatePresence>
+    </>
   );
 }

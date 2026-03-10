@@ -10,7 +10,7 @@ const defaultContent = {
     ctaText: "지금 시작하기",
     linkText: "더 알아보기",
     priceText: "월 ₩390,000부터 시작",
-    image: "/ba6083f5add3b381b4034a9176609e92e75e29ec-1100x655.avif",
+    image: `${import.meta.env.BASE_URL}ba6083f5add3b381b4034a9176609e92e75e29ec-1100x655.avif`,
     imageAlt: "NEO 휴머노이드 로봇",
   },
 

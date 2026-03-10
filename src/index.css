@@ -1,0 +1,337 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "tailwindcss";
+
+@theme {
+  --color-neo-accent: #E8622C;
+  --color-neo-accent-hover: #D4561F;
+  --color-neo-dark: #1D1D1F;
+  --color-neo-dark-hover: #2E2E2E;
+  --color-neo-text: #1D1D1F;
+  --color-neo-gray: #86868B;
+  --color-neo-light: #F5F5F7;
+  --color-neo-border: #D2D2D7;
+
+  --font-family-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  color: var(--color-neo-text);
+  background-color: #fff;
+  letter-spacing: -0.022em;
+}
+
+/* 스크롤 애니메이션 초기 상태 — Apple 스타일 부드러운 reveal */
+.scroll-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s cubic-bezier(0.28, 0.11, 0.32, 1),
+              transform 0.9s cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+/* 스크롤 애니메이션 노출 시 */
+.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 스크롤 기반 이미지 scale 전환 — Mac Mini 스타일 */
+.scroll-scale {
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.28, 0.11, 0.32, 1),
+              opacity 0.8s cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+.scroll-scale.scroll-visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ── Apple MediaCardGallery 정확한 스펙 구현 ──────────────────── */
+
+/* scroll-container (트랙) */
+.carousel-track {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* 모바일: scroll-padding = 6.25vw (패딩과 동일해야 snap 정확) */
+  scroll-padding-inline-start: 6.25vw;
+}
+
+/* 데스크탑에선 center 스냅이므로 scroll-padding 불필요 */
+@media (min-width: 735px) {
+  .carousel-track {
+    scroll-padding-inline-start: 0;
+  }
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+/* item-container — grid, gap 20px, 양쪽 패딩 6.25vw */
+.carousel-item-container {
+  display: contents; /* grid는 부모인 .carousel-inner에서 처리 */
+}
+
+.carousel-inner {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 20px;
+  width: fit-content;
+  padding: 0 6.25vw;
+}
+
+/* gallery-item (카드 wrapper) */
+.carousel-item-container {
+  display: flex;
+  flex-shrink: 0;
+  /* 모바일: start 스냅 */
+  scroll-snap-align: start;
+}
+
+@media (min-width: 735px) {
+  .carousel-item-container {
+    /* 데스크탑: center 스냅 */
+    scroll-snap-align: center;
+  }
+}
+
+/* 카드 본체 — Apple iPhone 17e --p-width/--p-height 비율 그대로 */
+.carousel-card {
+  width: max(87.5vw, 280px);
+  aspect-ratio: 400 / 480; /* 모바일: 세로형 */
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background-color: #E8E8ED;
+}
+
+@media (min-width: 481px) {
+  .carousel-card { aspect-ratio: 642 / 560; }
+}
+
+@media (min-width: 735px) {
+  .carousel-card { aspect-ratio: 934 / 628; }
+}
+
+@media (min-width: 1069px) {
+  .carousel-card { aspect-ratio: 1260 / 680; }
+}
+
+@media (min-width: 1441px) {
+  .carousel-card { aspect-ratio: 1680 / 740; }
+}
+
+/* 상세 기능 미디어 — 캐러셀 카드와 동일한 반응형 비율 */
+.feature-media {
+  aspect-ratio: 400 / 480;
+}
+
+@media (min-width: 481px) {
+  .feature-media { aspect-ratio: 642 / 560; }
+}
+
+@media (min-width: 735px) {
+  .feature-media { aspect-ratio: 934 / 628; }
+}
+
+@media (min-width: 1069px) {
+  .feature-media { aspect-ratio: 1260 / 680; }
+}
+
+@media (min-width: 1441px) {
+  .feature-media { aspect-ratio: 1680 / 740; }
+}
+
+/* 캐러셀 caption 애니메이션 — 오른쪽에서 왼쪽으로 슬라이드인 */
+.carousel-caption {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity 0.55s cubic-bezier(0.28, 0.11, 0.32, 1) 0.15s,
+    transform 0.55s cubic-bezier(0.28, 0.11, 0.32, 1) 0.15s;
+}
+
+.carousel-caption-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 플레이/일시정지 버튼 — Apple aap-media-card-gallery 스타일 */
+.carousel-play-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-neo-dark);
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.carousel-play-btn:hover {
+  background: rgba(0, 0, 0, 0.14);
+  transform: scale(1.06);
+}
+
+.carousel-play-btn:active {
+  transform: scale(0.94);
+}
+
+/* dotnav — 기본 dot */
+.carousel-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+  /* Apple: 활성 시 48px(데스크탑) / 32px(모바일)로 확장 */
+  transition: width 0.3s cubic-bezier(0.28, 0.11, 0.32, 1),
+              background 0.25s ease;
+}
+
+.carousel-dot:hover {
+  background: rgba(0, 0, 0, 0.44);
+}
+
+.carousel-dot.active {
+  width: 48px;
+  background: rgba(0, 0, 0, 0.18);
+  cursor: default;
+}
+
+@media (max-width: 734px) {
+  .carousel-dot.active {
+    width: 32px;
+  }
+}
+
+/* progress fill — 활성 dot 내부에서 왼→오른쪽으로 채워짐 */
+.carousel-dot-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: rgba(0, 0, 0, 0.76);
+  border-radius: 10px;
+  animation: dotFill linear forwards;
+}
+
+@keyframes dotFill {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Hero 로드 애니메이션 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Apple 스타일 텍스트 링크 — 화살표 포함 */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-size: 1.188rem;
+  font-weight: 500;
+  transition: gap 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.link-arrow:hover {
+  gap: 0.5em;
+}
+
+.link-arrow::after {
+  content: "›";
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+/* Apple 스타일 pill 버튼 — border-radius: 980px */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 980px;
+  font-size: 1.063rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.btn-pill:hover {
+  transform: scale(1.02);
+}
+
+.btn-pill:active {
+  transform: scale(0.98);
+}
+
+/* 어두운 배경 pill 버튼 */
+.btn-pill-dark {
+  background-color: var(--color-neo-dark);
+  color: #fff;
+}
+
+.btn-pill-dark:hover {
+  background-color: var(--color-neo-dark-hover);
+}
+
+/* 액센트 pill 버튼 */
+.btn-pill-accent {
+  background-color: var(--color-neo-accent);
+  color: #fff;
+}
+
+.btn-pill-accent:hover {
+  background-color: var(--color-neo-accent-hover);
+}
+
+/* 아웃라인 pill 버튼 */
+.btn-pill-outline {
+  background-color: transparent;
+  color: var(--color-neo-dark);
+  border: 1.5px solid var(--color-neo-border);
+}
+
+.btn-pill-outline:hover {
+  border-color: var(--color-neo-dark);
+}

@@ -52,7 +52,7 @@ export default function SubscribeModal() {
   const handleSubscribe = () => {
     closeModal();
     setShowConfirm(true);
-    setTimeout(() => setShowConfirm(false), 2500);
+    setTimeout(() => setShowConfirm(false), 1000);
   };
   const defaultActive = pricing.plans.findIndex((p) => p.recommended);
   const [activePlan, setActivePlan] = useState(defaultActive >= 0 ? defaultActive : 0);

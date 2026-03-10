@@ -106,7 +106,7 @@ const defaultContent = {
     subtitle: "",
     buttonText: "",
     linkText: "FAQ 알아보기",
-    image: "",
+    image: `${import.meta.env.BASE_URL}hoodie_compressed_12.avif`,
     image2: "",
     image3: "",
   },

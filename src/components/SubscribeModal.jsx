@@ -60,13 +60,19 @@ export default function SubscribeModal() {
   /* 슬라이딩 하이라이트 */
   const cardRefs = useRef([]);
   const [highlight, setHighlight] = useState({ top: 0, height: 0 });
+  const highlightReady = useRef(false);
 
   const updateHighlight = useCallback(() => {
     const el = cardRefs.current[activePlan];
     if (el) setHighlight({ top: el.offsetTop, height: el.offsetHeight });
   }, [activePlan]);
 
-  useEffect(() => { updateHighlight(); }, [updateHighlight, activePlan, open]);
+  useEffect(() => {
+    updateHighlight();
+    /* 첫 위치 세팅 후 트랜지션 활성화 */
+    const t = setTimeout(() => { highlightReady.current = true; }, 50);
+    return () => clearTimeout(t);
+  }, [updateHighlight, activePlan, open]);
   useEffect(() => {
     window.addEventListener("resize", updateHighlight);
     return () => window.removeEventListener("resize", updateHighlight);
@@ -300,7 +306,9 @@ export default function SubscribeModal() {
                     style={{
                       top: `${highlight.top}px`,
                       height: `${highlight.height}px`,
-                      transition: "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      transition: highlightReady.current
+                        ? "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                        : "none",
                     }}
                   />
                 </div>

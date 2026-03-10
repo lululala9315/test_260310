@@ -57,13 +57,18 @@ export default function PricingSection() {
   /* 슬라이딩 하이라이트 동적 위치 계산 */
   const cardRefs = useRef([]);
   const [highlight, setHighlight] = useState({ top: 0, height: 0 });
+  const highlightReady = useRef(false);
 
   const updateHighlight = useCallback(() => {
     const el = cardRefs.current[activePlan];
     if (el) setHighlight({ top: el.offsetTop, height: el.offsetHeight });
   }, [activePlan]);
 
-  useEffect(() => { updateHighlight(); }, [updateHighlight, activePlan]);
+  useEffect(() => {
+    updateHighlight();
+    const t = setTimeout(() => { highlightReady.current = true; }, 50);
+    return () => clearTimeout(t);
+  }, [updateHighlight, activePlan]);
   useEffect(() => {
     window.addEventListener("resize", updateHighlight);
     return () => window.removeEventListener("resize", updateHighlight);
@@ -233,7 +238,9 @@ export default function PricingSection() {
                   style={{
                     top: `${highlight.top}px`,
                     height: `${highlight.height}px`,
-                    transition: "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    transition: highlightReady.current
+                      ? "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                      : "none",
                   }}
                 />
               </div>

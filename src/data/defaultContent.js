@@ -84,17 +84,19 @@ const defaultContent = {
     plans: [
       {
         name: "Standard",
+        price: "742,000",
         yearlyPrice: "7,123,200",
         description: "기본적인 서비스",
         recommended: false,
-        features: ["", "", ""],
+        features: ["월간 구독", "스타터 생산성 패키지", "표준 배송"],
       },
       {
         name: "Pro",
+        price: "29,740,000",
         yearlyPrice: "285,504,000",
         description: "가장 인기 있는 선택",
         recommended: true,
-        features: ["", "", ""],
+        features: ["3년 보증 포함 소유권", "프리미엄 지원", "우선 배송"],
       },
     ],
   },
